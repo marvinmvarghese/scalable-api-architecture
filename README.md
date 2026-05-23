@@ -185,4 +185,3 @@ Deploy the entire high-performance architecture into a local Kubernetes cluster 
 *   **Caching & Throttling**: Redis (via `redis-py` async API)
 *   **Validation**: Pydantic v2
 *   **Frontend**: Vanilla HTML5, CSS3 Grid/Flexbox, dynamic Javascript ES6.
-# scalable-api-architecture
