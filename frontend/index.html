@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HyperBlog - Extreme Performance Blog Platform</title>
+    <!-- Google Fonts: Outfit (headings) & Inter (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons for Premium Look -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Vanilla Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Abstract Ambient Glow Backgrounds for Glassmorphism -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fa-solid fa-bolt logo-icon"></i>
+                <span>HYPER<span>BLOG</span></span>
+            </div>
+            <div class="nav-status">
+                <span class="status-dot pulsing"></span>
+                <span class="status-text">SYSTEM: ONLINE</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1 class="hero-title animate-glow">Scale Without Limits.</h1>
+            <p class="hero-subtitle">A state-of-the-art blog platform architected for extreme concurrency, powered by asynchronous FastAPI & multi-tiered Redis caching.</p>
+        </section>
+
+        <!-- Two-Column Grid Layout -->
+        <div class="dashboard-grid">
+            
+            <!-- Left Side: Interactive Writing & Blog Feed -->
+            <div class="left-pane">
+                
+                <!-- Blog Writer Card -->
+                <div class="glass-card writer-card">
+                    <div class="card-header">
+                        <i class="fa-regular fa-pen-to-square header-icon"></i>
+                        <h2>Draft a New Story</h2>
+                    </div>
+                    
+                    <form id="blog-form" class="blog-form">
+                        <div class="form-row-2">
+                            <div class="form-group">
+                                <label for="author"><i class="fa-regular fa-user"></i> Author Name</label>
+                                <input type="text" id="author" placeholder="e.g. Satoshi Nakamoto" required value="Anonymous">
+                            </div>
+                            <div class="form-group">
+                                <label for="tags"><i class="fa-solid fa-tags"></i> Tags (comma separated)</label>
+                                <input type="text" id="tags" placeholder="e.g. system-design, fastapi, scaling">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title"><i class="fa-solid fa-heading"></i> Article Title</label>
+                            <input type="text" id="title" placeholder="What is the next big breakthrough?" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="content"><i class="fa-regular fa-file-lines"></i> Content / Story</label>
+                            <textarea id="content" placeholder="Share your insights with the world... (Supports multi-line text)" rows="6" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="submit-btn">
+                            <span>Publish to Feed</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Feed Divider -->
+                <div class="feed-header-bar">
+                    <h2><i class="fa-regular fa-newspaper"></i> Live Articles</h2>
+                    <span class="feed-count" id="feed-count">0 Articles</span>
+                </div>
+
+                <!-- Blog Feed List -->
+                <div class="blog-feed" id="blog-feed">
+                    <!-- Cards will be dynamically injected here -->
+                    <div class="feed-loading">
+                        <div class="spinner"></div>
+                        <p>Syncing with high-throughput database...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Real-Time Operational Telemetry -->
+            <div class="right-pane">
+                <div class="glass-card telemetry-card sticky-sidebar">
+                    <div class="card-header border-cyan">
+                        <i class="fa-solid fa-chart-line header-icon icon-cyan"></i>
+                        <h2>Operational Telemetry</h2>
+                        <span class="badge badge-cyan">100k Req/s Sim</span>
+                    </div>
+                    
+                    <p class="telemetry-desc">
+                        Observe real-time system metrics reflecting concurrent performance scaling.
+                    </p>
+
+                    <!-- Throughput Meter -->
+                    <div class="metric-container">
+                        <div class="metric-info">
+                            <span class="metric-name"><i class="fa-solid fa-network-wired"></i> Global Request Rate</span>
+                            <span class="metric-value font-mono text-cyan" id="metric-throughput">0 req/sec</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill fill-cyan" id="fill-throughput" style="width: 0%"></div>
+                        </div>
+                        <div class="metric-limits">
+                            <span>0 req/s</span>
+                            <span>Max Capacity: 100,000 req/s</span>
+                        </div>
+                    </div>
+
+                    <!-- Cache Hit Ratio Meter -->
+                    <div class="metric-container">
+                        <div class="metric-info">
+                            <span class="metric-name"><i class="fa-solid fa-memory"></i> Redis Cache Hit Ratio</span>
+                            <span class="metric-value font-mono text-purple" id="metric-cache">0%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill fill-purple" id="fill-cache" style="width: 0%"></div>
+                        </div>
+                        <div class="metric-limits">
+                            <span>DB Fallback</span>
+                            <span>Target: 99.5%</span>
+                        </div>
+                    </div>
+
+                    <!-- Cluster Scalability -->
+                    <div class="cluster-grid">
+                        <div class="cluster-card">
+                            <span class="card-title">K8s Pods Active</span>
+                            <span class="card-value font-mono text-cyan" id="metric-pods">0</span>
+                            <div class="card-subtitle"><i class="fa-solid fa-cubes"></i> Horizontal Scaling</div>
+                        </div>
+                        <div class="cluster-card">
+                            <span class="card-title">Async SQL Pools</span>
+                            <span class="card-value font-mono text-purple" id="metric-sql">0</span>
+                            <div class="card-subtitle"><i class="fa-solid fa-database"></i> Conn Recycling</div>
+                        </div>
+                    </div>
+
+                    <!-- CPU / RAM Telemetry -->
+                    <div class="telemetry-bar-row">
+                        <div class="mini-metric">
+                            <div class="mini-info">
+                                <span><i class="fa-solid fa-microchip"></i> CPU Load</span>
+                                <span id="mini-cpu">0%</span>
+                            </div>
+                            <div class="progress-bar-bg mini-bar">
+                                <div class="progress-bar-fill fill-cyan" id="fill-cpu" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="mini-metric">
+                            <div class="mini-info">
+                                <span><i class="fa-solid fa-server"></i> RAM Usage</span>
+                                <span id="mini-ram">0%</span>
+                            </div>
+                            <div class="progress-bar-bg mini-bar">
+                                <div class="progress-bar-fill fill-purple" id="fill-ram" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Controls & Simulations -->
+                    <div class="system-controls">
+                        <h3>Interactive Simulations</h3>
+                        <div class="control-buttons">
+                            <button id="btn-spike" class="btn btn-outline-cyan">
+                                <i class="fa-solid fa-bolt-lightning"></i> Simulate Load Spike (120k req/s)
+                            </button>
+                            <button id="btn-benchmark" class="btn btn-outline-purple">
+                                <i class="fa-solid fa-gauge-high"></i> Run Stress Test
+                            </button>
+                        </div>
+                        <div id="sim-status" class="sim-status-log"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>HyperBlog Architecture - Designed for Maximum Scaling.</p>
+            <div class="architecture-badges">
+                <span>FastAPI Async</span>
+                <span>Redis Multi-Tier</span>
+                <span>Postgres pooling</span>
+                <span>Docker</span>
+                <span>Kubernetes</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Frontend logic -->
+    <script src="app.js"></script>
+</body>
+</html>
